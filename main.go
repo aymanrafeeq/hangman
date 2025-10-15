@@ -5,9 +5,13 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 )
 
 func getSecretWord(wordFileName string) string {
+
+	var allowedWords []string
+
 	WordFile, err := os.Open(wordFileName)
 	if err != nil {
 		errMessage := fmt.Sprintf("Error in %v cause of %v", WordFile, err)
@@ -18,17 +22,17 @@ func getSecretWord(wordFileName string) string {
 
 	scanner := bufio.NewScanner(WordFile)
 
-	var wordList []string
 	for scanner.Scan() {
-		wordList = append(wordList, scanner.Text())
+		word := scanner.Text()
+		if word == strings.ToLower(word) {
+			allowedWords = append(allowedWords, word)
+		}
 	}
-	randomNum := rand.Intn(len(wordList))
 
-	randWord := wordList[randomNum]
-
-	return randWord
-
+	randomNum := rand.Intn(len(allowedWords))
+	return allowedWords[randomNum]
 }
+
 func main() {
 	fmt.Println(getSecretWord("/usr/share/dict/words"))
 }
