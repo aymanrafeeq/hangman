@@ -20,3 +20,13 @@ func TestSecreWordtLength(t *testing.T) {
 		t.Errorf("Words should contain a minimum of 6 letters. Got %v", len(secretWord))
 	}
 }
+
+func TestSecreWordNoPunctuation(t *testing.T) {
+	wordList := "/usr/share/dict/words"
+	secretWord := getSecretWord(wordList)
+	for _, ch := range secretWord {
+		if !(ch >= 'a' && ch <= 'z') {
+			t.Errorf("Words should not contain a punctuation Got %v", secretWord)
+		}
+	}
+}
