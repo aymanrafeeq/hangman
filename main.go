@@ -1,10 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 func getSecretWord(wordFileName string) string {
+	WordFile, err := os.Open(wordFileName)
+	if err != nil {
+		errMessage := fmt.Sprintf("Error in %v cause of %v", WordFile, err)
+		panic(errMessage)
+	}
 
-	return "ayman"
+	defer WordFile.Close()
+
+	scanner := bufio.NewScanner(WordFile)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+	return "elephant"
 
 }
 func main() {
