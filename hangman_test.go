@@ -49,16 +49,48 @@ func TestSecreWordNoPunctuation(t *testing.T) {
 
 func TestCorrectGuess(t *testing.T) {
 	secretWord := "elephant"
-	userInput := "a"
-	state := NewGame(secretWord)
-	newState := checkGuess(state, userInput)
+	guess := 'a'
+	currentState := NewGame(secretWord)
+	newState := checkGuess(currentState, byte(guess))
 
 	expected := Game{
-		secretWord:     state.secretWord,
-		guesses:        append(state.guesses, userInput[0]),
-		correctGuesses: append(state.correctGuesses, userInput[0]),
+		secretWord:     currentState.secretWord,
+		guesses:        append(currentState.guesses, byte(guess)),
+		correctGuesses: append(currentState.correctGuesses, byte(guess)),
 		chancesLeft:    7,
 	}
+	if newState.secretWord != expected.secretWord {
+		t.Errorf("Secret word is modified")
+	}
+	if !bytes.Equal(newState.guesses, expected.guesses) {
+		t.Errorf("Guess should be %q but got %q", expected.guesses, newState.guesses)
+	}
+	if !bytes.Equal(newState.correctGuesses, expected.correctGuesses) {
+		t.Errorf("Correct Guess should be %q but got %q", expected.correctGuesses, newState.correctGuesses)
+	}
+	if newState.chancesLeft != expected.chancesLeft {
+		t.Errorf("chances left has modified")
+	}
+}
+
+func TestCorrectGuess2(t *testing.T) {
+	secretWord := "elephant"
+	guess := 'l'
+	currentState := Game{
+		secretWord:     secretWord,
+		guesses:        []byte{'c', 'a'},
+		correctGuesses: []byte{'a'},
+		chancesLeft:    6,
+	}
+	newState := checkGuess(currentState, byte(guess))
+
+	expected := Game{
+		secretWord:     currentState.secretWord,
+		guesses:        append(currentState.guesses, byte(guess)),
+		correctGuesses: append(currentState.correctGuesses, byte(guess)),
+		chancesLeft:    currentState.chancesLeft,
+	}
+
 	if newState.secretWord != expected.secretWord {
 		t.Errorf("Secret word is modified")
 	}

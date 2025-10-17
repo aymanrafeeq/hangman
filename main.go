@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"math/rand"
 	"os"
@@ -9,15 +10,15 @@ import (
 )
 
 type Game struct {
-	secrerWord     string
+	secretWord     string
 	guesses        []byte
 	chancesLeft    uint
 	correctGuesses []byte
 }
 
-func NewGame(secrerWord string) Game {
+func NewGame(secretWord string) Game {
 	return Game{
-		secrerWord:     secrerWord,
+		secretWord:     secretWord,
 		guesses:        []byte{},
 		chancesLeft:    7,
 		correctGuesses: []byte{},
@@ -57,6 +58,14 @@ func getSecretWord(wordFileName string) string {
 	randomNum := rand.Intn(len(allowedWords))
 	return allowedWords[randomNum]
 
+}
+
+func checkGuess(state Game, guess byte) Game {
+	if state.chancesLeft > 1 && strings.ContainsRune(state.secretWord, rune(guess)) && !bytes.Contains(state.guesses, []byte{guess}) {
+		state.correctGuesses = append(state.correctGuesses, guess)
+		state.guesses = append(state.guesses, guess)
+	}
+	return state
 }
 
 func main() {
