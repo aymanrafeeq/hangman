@@ -170,3 +170,15 @@ func TestAlreadyGuess(t *testing.T) {
 		t.Errorf("Remaining chances is modified")
 	}
 }
+
+func TestGameOverWin(t *testing.T) {
+	state := Game{
+		secretWord:     "apple",
+		correctGuesses: []byte{'a', 'p', 'l', 'e'},
+		chancesLeft:    5,
+	}
+
+	if !hasWon(state) {
+		t.Errorf("Expected win, but got not won")
+	}
+}
