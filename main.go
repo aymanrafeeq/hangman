@@ -122,7 +122,7 @@ func main() {
 		guess := input[0]
 
 		if bytes.Contains(game.guesses, []byte{guess}) {
-			fmt.Printf("You already guessed '%c'. Try a different letter.\n\n", guess)
+			fmt.Printf("You already guessed '%c'.Try a different letter.\n\n", guess)
 			continue
 		}
 
