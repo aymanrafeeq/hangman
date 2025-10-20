@@ -73,6 +73,16 @@ func checkGuess(state Game, guess byte) Game {
 	return state
 }
 
+func hasWon(state Game) bool {
+	for _, ch := range state.secretWord {
+		if !bytes.Contains(state.correctGuesses, []byte{byte(ch)}) {
+			return false
+		}
+	}
+	return true
+
+}
+
 func main() {
 	fmt.Println(getSecretWord("/usr/share/dict/words"))
 }
