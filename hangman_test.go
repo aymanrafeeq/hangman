@@ -182,3 +182,14 @@ func TestGameOverWin(t *testing.T) {
 		t.Errorf("Expected win, but got not won")
 	}
 }
+
+func TestGameOverLose(t *testing.T) {
+	state := Game{
+		secretWord:     "apple",
+		correctGuesses: []byte{'a', 'e'},
+		chancesLeft:    0,
+	}
+	if !hasLose(state) {
+		t.Errorf("Expected lose, but got not lose")
+	}
+}
