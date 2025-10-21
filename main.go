@@ -121,6 +121,12 @@ func main() {
 
 		guess := input[0]
 
+		if guess < 'a' || guess > 'z' {
+			fmt.Println("Please enter a valid character....!!!")
+			fmt.Println()
+			continue
+		}
+
 		if bytes.Contains(game.guesses, []byte{guess}) {
 			fmt.Printf("You already guessed '%c'.Try a different letter.\n\n", guess)
 			continue
